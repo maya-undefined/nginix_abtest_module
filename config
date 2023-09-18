@@ -1,0 +1,8 @@
+CORE_MODULES="$CORE_MODULES ab_module"
+HTTP_MODULES="$HTTP_MODULES ab_module"
+CORE_LIBS="$CORE_LIBS -lyaml-cpp"
+
+ngx_module_name=ab_module
+ngx_module_srcs="$ngx_module_srcs $ngx_addon_dir/abtest.cpp"
+
+. auto/module
