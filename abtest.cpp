@@ -7,6 +7,7 @@ extern "C" {
 #include <random>
 #include <mutex>
 
+// pretend this comes from a redis cluster
 const char* embeddedYAML = R"(
 buckets:
   -optionA: /option_A
@@ -19,15 +20,9 @@ default: /
 class ABTester {
 private:
     static std::unique_ptr<ABTester> instance;
-    static std::once_flag onceFlag;
-
-    // Private constructor to prevent direct instantiation
-    ABTester() {
-
-    }
+    ABTester() {}
 
 public:
-    // Deleted copy/move constructors and assignment operators to ensure singleton behavior
     ABTester(const ABTester&) = delete;
     ABTester(ABTester&&) = delete;
     ABTester& operator=(const ABTester&) = delete;
@@ -38,7 +33,7 @@ public:
         return instance;
     }
 
-    std::string determineBucket(const YAML::Node& yaml_config, std::string x_test_group) {
+    static std::string determineBucket(const YAML::Node& yaml_config, std::string x_test_group) {
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_real_distribution<> dis(0.0, 1.0);
@@ -63,7 +58,7 @@ public:
         YAML::Node yaml_config = YAML::Load(yamlStream);
 
         std::string x_test_group = "X-Test-Group";
-        // need to get the header value out
+        // need to get the header value outj of request
 
         ABTester& tester = ABTester::getInstance();
 
