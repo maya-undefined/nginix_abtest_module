@@ -2,7 +2,9 @@
 
 ABTesting module for Nginix
 
-One possible AB testing system would be to load a large number of abtests to run experiments against. 
+One possible AB testing system would be to load a large number of abtests to run experiments against per account. 
+
+The requests come with a `x_test_group` header that could act as a sort of lookup to a data store, such as redis. From there we can load the experiments.
 
 Experiments could be described as
 
@@ -16,3 +18,4 @@ default: /
 ```
 
 The `experiment_chance` controls how often we experiment or not. 
+
